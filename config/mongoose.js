@@ -5,7 +5,10 @@ const connectionParams={
     useUnifiedTopology: true 
 }
 
+mongoose.set("strictQuery", false);
+
 mongoose.connect(process.env.mongo_uri);
+
 
 const db = mongoose.connection;
 
