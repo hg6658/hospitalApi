@@ -10,6 +10,8 @@ const { createServer } = require("http");
 var bodyParser = require('body-parser');
 const httpServer = createServer(app);
 const chatSocketInstance = require('./config/websocket')
+
+
 chatSocketInstance.chatSocketInstance(httpServer);
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true }));

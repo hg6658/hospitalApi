@@ -1,5 +1,5 @@
-
-const Patient = require('../models/patient')
+(function(){
+    const Patient = require('../models/patient')
 const Report = require('../models/report')
 const User = require('../models/user')
 const mongoose = require('mongoose');
@@ -8,7 +8,7 @@ const { joiPasswordExtendCore } = require('joi-password');
 const joiPassword = Joi.extend(joiPasswordExtendCore);
 const nodeCache = require('../config/nodeCache').nodeCache;
 
-const createPatient = async function(req, res){
+const createPatient = async function(req , res ){
     try{
     let doctor = await User.findById(req.user._id); 
     let patient = await Patient.create({
@@ -21,7 +21,7 @@ const createPatient = async function(req, res){
         code: 200,
         patient: patient
     })
-    }catch(err){
+    }catch(err ){
         res.status(500).json({
             code: 500,
             message: err.message
@@ -29,7 +29,7 @@ const createPatient = async function(req, res){
     }
 }
 
-var getPatient = async function(req,res){
+var getPatient = async function(req ,res ){
     try{
         var value = nodeCache.get(req.params.pId);
         if(value){
@@ -48,7 +48,7 @@ var getPatient = async function(req,res){
             })
         }
 
-    }catch(err){
+    }catch(err ){
         res.status(500).json({
             code: 500,
             message: err.message
@@ -56,7 +56,7 @@ var getPatient = async function(req,res){
     }
 }
 
-var validateCredentialscreatePatient= function(req,res,next){
+var validateCredentialscreatePatient= function(req ,res ,next ){
 
     try{
         const schema  = Joi.object({
@@ -80,7 +80,7 @@ var validateCredentialscreatePatient= function(req,res,next){
     }
 }
 
-const createReport = async function(req,res){
+const createReport = async function(req ,res ){
     try{
         let patient = await Patient.findById(req.params.id);
         let doctor = await User.findById(req.user._id);
@@ -98,7 +98,7 @@ const createReport = async function(req,res){
             code: 200,
             report: report 
         });
-    }catch(err){
+    }catch(err ){
         res.status(500).json({
             code: 500,
             message: err.message
@@ -106,7 +106,7 @@ const createReport = async function(req,res){
     }
 }
 
-const validateCredentialscreateReport = function(req,res,next){
+const validateCredentialscreateReport = function(req ,res ,next ){
 
     try{
         const schema  = Joi.object({
@@ -127,7 +127,7 @@ const validateCredentialscreateReport = function(req,res,next){
     }
 }
 
-const allReports = async function(req,res){
+const allReports = async function(req ,res ){
     try{
         var value = nodeCache.get(req.params.id+":Report");
         if(value){
@@ -148,7 +148,7 @@ const allReports = async function(req,res){
         return;
         }
         
-    }catch(err){
+    }catch(err ){
         res.status(500).json({
             code: 500,
             message: err.message
@@ -157,7 +157,7 @@ const allReports = async function(req,res){
 }
 
 
-var updatePatient = async function(req,res){
+var updatePatient = async function(req ,res ){
     try{
         let patient = await Patient.findOneAndUpdate({_id:mongoose.Types.ObjectId(req.params.id)},req.body,{new:true});
         if(!patient) throw new Error('No patient found');
@@ -166,7 +166,7 @@ var updatePatient = async function(req,res){
             code: 200,
             message: 'update Done Successfully'
         })
-    }catch(err){
+    }catch(err ){
         res.status(500).json({
             code: 500,
             message: err.message
@@ -174,7 +174,7 @@ var updatePatient = async function(req,res){
     }
 }
 
-const validateCredentialsupdatePatient = function(req,res,next){
+const validateCredentialsupdatePatient = function(req ,res ,next ){
 
     try{
         const schema  = Joi.object({
@@ -198,7 +198,7 @@ const validateCredentialsupdatePatient = function(req,res,next){
     }
 }
 
-var deletePatient = async function(req,res){
+var deletePatient = async function(req ,res ){
     try{
         await Patient.findOneAndRemove({ _id: mongoose.Types.ObjectId(req.params.id)});
         await Report.deleteMany({patientId:mongoose.Types.ObjectId(req.params.id)});
@@ -225,4 +225,5 @@ module.exports = {
     updatePatient,
     validateCredentialsupdatePatient,
     deletePatient
-}
+}    
+})();

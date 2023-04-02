@@ -1,5 +1,7 @@
-const NodeCache = require("node-cache");
+(function(){
+    const NodeCache = require("node-cache");
 
-module.exports = {
-    nodeCache: new NodeCache(),
-}
+    module.exports = {
+        nodeCache: new NodeCache(),
+    }
+})();

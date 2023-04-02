@@ -1,14 +1,14 @@
-const Joi = require('joi');
+(function(){const Joi = require('joi');
 const { joiPasswordExtendCore } = require('joi-password');
 const joiPassword = Joi.extend(joiPasswordExtendCore);
-const register = async function(req,res){
+const register = async function(req ,res ){
     return res.status(200).json({
         message: 'Signup successful',
         user: req.user
     })
 }
 
-const validateCredentialsRegister = function(req,res,next){
+const validateCredentialsRegister = function(req ,res ,next ){
     try{
         const schema  = Joi.object({
             userName: Joi.string().min(5).max(200).required(),
@@ -37,7 +37,7 @@ const validateCredentialsRegister = function(req,res,next){
     }
 }
 
-const validateCredentialsLogin = function(req,res,next){
+const validateCredentialsLogin = function(req ,res ,next ){
     try{
         const schema  = Joi.object({
             email: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }),
@@ -69,3 +69,4 @@ module.exports = {
     validateCredentialsRegister,
     validateCredentialsLogin
 }
+}());
