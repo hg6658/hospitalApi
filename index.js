@@ -12,6 +12,14 @@ const passport_jwt_1 = __importDefault(require("./config/passport-jwt"));
 const http_1 = require("http");
 const body_parser_1 = __importDefault(require("body-parser"));
 const websocket_1 = __importDefault(require("./config/websocket"));
+const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
+const limiter = (0, express_rate_limit_1.default)({
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+    standardHeaders: true,
+    legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+});
+// Apply the rate limiting middleware to all request
 var pp = passport_local_1.default;
 var ss = passport_jwt_1.default;
 var dbs = mongoose_1.default;
@@ -19,6 +27,7 @@ var ps = passport_1.default;
 const app = (0, express_1.default)();
 const httpServer = (0, http_1.createServer)(app);
 websocket_1.default.chatSocketInstance(httpServer);
+app.use(limiter);
 app.use(body_parser_1.default.json()); // support json encoded bodies
 app.use(body_parser_1.default.urlencoded({ extended: true }));
 app.use('/', require('./routes'));

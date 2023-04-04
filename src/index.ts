@@ -8,6 +8,16 @@ import passportJwt from './config/passport-jwt';
 import { createServer,Server } from "http";
 import bodyParser from 'body-parser';
 import chatSocketInstance from './config/websocket';
+import rateLimit from 'express-rate-limit'
+
+const limiter = rateLimit({
+	windowMs: 15 * 60 * 1000, // 15 minutes
+	max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+	standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+})
+
+// Apply the rate limiting middleware to all request
 
 var pp = passportLocal
 var ss = passportJwt;
@@ -17,6 +27,7 @@ const app: Application = express();
 const httpServer: Server = createServer(app);
     
 chatSocketInstance.chatSocketInstance(httpServer);
+app.use(limiter);
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true }));
     
