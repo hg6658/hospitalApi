@@ -14,8 +14,8 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const websocket_1 = __importDefault(require("./config/websocket"));
 const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
 const limiter = (0, express_rate_limit_1.default)({
-    windowMs: 15 * 60 * 1000,
-    max: 100,
+    windowMs: 1000,
+    max: 2,
     standardHeaders: true,
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
