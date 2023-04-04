@@ -2,9 +2,12 @@
     "version": 2,
     "name": "hospital api",
     "builds": [
-       { "src": "./dist/index.js", "use": "@vercel/node" }
+       { "src": "./dist/index.js", "use": "@vercel/node","build":"npm run start" }
     ],
     "routes": [
        { "src": "/(.*)", "dest": "./dist/index.js" }
-    ]
+    ],
+    "scripts": {
+      "start": "node ./dist/index.js"
+    }
  }
