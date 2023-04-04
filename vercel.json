@@ -8,6 +8,6 @@
        { "src": "/(.*)", "dest": "./dist/index.js" }
     ],
     "scripts": {
-      "start": "node ./dist/index.js"
+      "start": "nodemon ./dist/index.js"
     }
  }
