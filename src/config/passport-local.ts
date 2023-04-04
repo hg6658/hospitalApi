@@ -2,7 +2,6 @@ import passport from 'passport';
 import Local, {Strategy, IVerifyOptions} from 'passport-local';
 import {User} from '../models/user';
 import express from 'express';    
-console.log('passport local file executed');
 passport.use('register', new Strategy({
         usernameField: 'email',
         passwordField: 'password',

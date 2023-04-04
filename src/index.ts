@@ -29,7 +29,6 @@ var pp = passportLocal
 var ss = passportJwt;
 var dbs = db;
 var ps = passport;
-const app: Application = express();
 if (cluster.isPrimary) {
 	console.log(`Primary ${process.pid} is running`);
   
@@ -42,6 +41,8 @@ if (cluster.isPrimary) {
 	  console.log(`worker ${worker.process.pid} died`);
 	});
   } else {
+    
+    const app: Application = express();
     const httpServer: Server = createServer(app);
     
     chatSocketInstance.chatSocketInstance(httpServer);
@@ -60,6 +61,7 @@ if (cluster.isPrimary) {
     server.on('error', e => console.error("Error in the running server", e));
 
     console.log(`Worker ${process.pid} started`);  
+
+    module.exports = app;
     
-  }
-  export=app;	  
+  }	  

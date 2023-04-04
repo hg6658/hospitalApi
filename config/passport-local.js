@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 const passport_1 = __importDefault(require("passport"));
 const passport_local_1 = require("passport-local");
 const user_1 = require("../models/user");
-console.log('passport local file executed');
 passport_1.default.use('register', new passport_local_1.Strategy({
     usernameField: 'email',
     passwordField: 'password',

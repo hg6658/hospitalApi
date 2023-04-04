@@ -2,6 +2,7 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const express_1 = __importDefault(require("express"));
@@ -28,7 +29,6 @@ var pp = passport_local_1.default;
 var ss = passport_jwt_1.default;
 var dbs = mongoose_1.default;
 var ps = passport_1.default;
-const app = (0, express_1.default)();
 if (node_cluster_1.default.isPrimary) {
     console.log(`Primary ${node_process_1.default.pid} is running`);
     // Fork workers.
@@ -40,6 +40,7 @@ if (node_cluster_1.default.isPrimary) {
     });
 }
 else {
+    const app = (0, express_1.default)();
     const httpServer = (0, http_1.createServer)(app);
     websocket_1.default.chatSocketInstance(httpServer);
     app.use(limiter);
@@ -51,5 +52,5 @@ else {
     });
     server.on('error', e => console.error("Error in the running server", e));
     console.log(`Worker ${node_process_1.default.pid} started`);
+    module.exports = app;
 }
-module.exports = app;
